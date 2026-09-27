@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لعبة متوازي الأضلاع</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f7fb;margin:0;color:#18233a}
+.wrap{max-width:850px;margin:auto;padding:20px}
+.card{background:white;border-radius:20px;padding:22px;margin:15px 0;box-shadow:0 5px 20px #0001}
+h1{text-align:center;color:#2855a6}
+h2{font-size:21px}
+button{border:0;border-radius:12px;padding:12px 18px;margin:6px;font-size:17px;cursor:pointer;background:#2855a6;color:white}
+.option{display:block;width:100%;background:#eef3ff;color:#18233a;text-align:right}
+.option:hover{background:#dce7ff}
+.correct{background:#bdecc9!important}.wrong{background:#ffd0d0!important}
+.feedback{font-weight:bold;font-size:18px;min-height:28px;margin-top:10px}
+.score{text-align:center;font-size:20px;font-weight:bold}
+svg{width:100%;max-width:520px;display:block;margin:10px auto}
+.small{color:#596579}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>🎯 لعبة متوازي الأضلاع</h1>
+<p style="text-align:center">تعلّم الأضلاع المتقابلة والمتوازية واختبر نفسك!</p>
+<div class="score">⭐ النقاط: <span id="score">0</span></div>
+</div>
+
+<div class="card">
+<h2>السؤال 1: تعرّف الأضلاع</h2>
+<svg viewBox="0 0 520 260" aria-label="متوازي أضلاع">
+<polygon points="130,200 400,200 470,70 200,70" fill="#dce9ff" stroke="#2855a6" stroke-width="5"/>
+<text x="265" y="225" font-size="24" text-anchor="middle">الضلع أ = 6 سم</text>
+<text x="335" y="55" font-size="24" text-anchor="middle">الضلع ج = 6 سم</text>
+<text x="105" y="135" font-size="23" text-anchor="middle">ب = 4 سم</text>
+<text x="455" y="135" font-size="23" text-anchor="middle">د = 4 سم</text>
+</svg>
+<p>أي ضلع يساوي في الطول الضلع <b>أ</b>؟</p>
+<button class="option" onclick="answer(this,true,1)">الضلع ج</button>
+<button class="option" onclick="answer(this,false,1)">الضلع ب</button>
+<button class="option" onclick="answer(this,false,1)">الضلع د</button>
+<div id="f1" class="feedback"></div>
+</div>
+
+<div class="card">
+<h2>السؤال 2: التوازي</h2>
+<p>في متوازي الأضلاع، أي ضلعين متقابلين يكونان متوازيين؟</p>
+<button class="option" onclick="answer(this,true,2)">أ و ج</button>
+<button class="option" onclick="answer(this,false,2)">أ و ب</button>
+<button class="option" onclick="answer(this,false,2)">ب و ج</button>
+<div id="f2" class="feedback"></div>
+</div>
+
+<div class="card">
+<h2>السؤال 3: اختر الشكل الصحيح</h2>
+<svg viewBox="0 0 700 210">
+<polygon points="30,170 160,170 190,70 60,70" fill="#dce9ff" stroke="#2855a6" stroke-width="4"/>
+<text x="110" y="198" font-size="22" text-anchor="middle">الشكل 1</text>
+<polygon points="260,70 390,70 390,170 260,170" fill="#e9f6e9" stroke="#2855a6" stroke-width="4"/>
+<text x="325" y="198" font-size="22" text-anchor="middle">الشكل 2</text>
+<polygon points="490,170 650,170 620,70 520,95" fill="#ffe8e8" stroke="#2855a6" stroke-width="4"/>
+<text x="570" y="198" font-size="22" text-anchor="middle">الشكل 3</text>
+</svg>
+<p>أي الأشكال التالية يمثل متوازي أضلاع؟</p>
+<button class="option" onclick="answer(this,true,3)">الشكل 1</button>
+<button class="option" onclick="answer(this,true,3)">الشكل 2</button>
+<button class="option" onclick="answer(this,false,3)">الشكل 3</button>
+<div id="f3" class="feedback"></div>
+<p class="small">ملاحظة: الشكل المستطيل هو أيضًا متوازي أضلاع.</p>
+</div>
+
+<div class="card">
+<h2>🏆 سؤال التحدي للطلاب المتميزين</h2>
+<p>الضلع أ طوله 8 سم، والضلع ب طوله 5 سم. إذا كانت نقطة <b>ن</b> تقسم الضلع أ إلى جزأين متساويين، فما طول كل جزء؟</p>
+<button class="option" onclick="answer(this,false,4)">3 سم</button>
+<button class="option" onclick="answer(this,true,4)">4 سم</button>
+<button class="option" onclick="answer(this,false,4)">5 سم</button>
+<div id="f4" class="feedback"></div>
+</div>
+
+<div class="card" style="text-align:center">
+<button onclick="location.reload()">🔄 إعادة اللعبة</button>
+<p id="final"></p>
+</div>
+</div>
+<script>
+let score=0, done={};
+function answer(btn,ok,q){
+ if(done[q]) return;
+ done[q]=true;
+ const f=document.getElementById('f'+q);
+ if(ok){score+=10;btn.classList.add('correct');f.textContent='🎉 أحسنت! إجابة صحيحة +10 نقاط';}
+ else{btn.classList.add('wrong');f.textContent='💡 حاول التفكير في الأضلاع المتقابلة.';}
+ document.getElementById('score').textContent=score;
+ if(Object.keys(done).length===4){
+   document.getElementById('final').textContent='انتهت اللعبة! مجموعك: '+score+' من 40 ⭐';
+ }
+}
+</script>
+</body>
+</html>
